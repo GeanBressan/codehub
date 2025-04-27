@@ -14,11 +14,21 @@
                 <img src="https://i.pravatar.cc/40?img=5" class="w-10 h-10 rounded-full" alt="avatar">
                 <div>
                     <p class="text-sm font-semibold">Ana Coder</p>
-                    <p class="text-xs text-gray-400">Em: {{ $post->category->name }} - {{ $post->post_at->diffForHumans() }}</p>
+                    <p class="text-xs text-gray-400">Em: <a href="{{ route("category.show", $post->category->slug) }}"
+                        class="hover:text-emerald-600 cursor-pointer">{{ $post->category->name }}</a> - {{ $post->post_at->diffForHumans() }}</p>
                 </div>
             </div>
             <h2 class="text-3xl font-bold text-emerald-600 mb-4">{{ $post->title }}</h2>
             <p class="text-gray-700 mb-4">{!! $post->content !!}</p>
+
+            <div class="flex flex-wrap gap-2 mt-4">
+                @forelse($post->tags as $tag)
+                    <a href="{{ route('tag.show', $tag->slug) }}"
+                        class="bg-emerald-600 text-white px-2 py-1 rounded-full text-[12px] hover:bg-emerald-700 transition">{{ $tag->name }}</a>
+                @empty
+                    <a href="#" class="bg-gray-300 text-gray-500 px-2 py-1 rounded-full text-[12px]">Nenhuma TAG encontrada.</a>
+                @endforelse
+            </div>
             <p class="mt-8 text-emerald-600 hover:underline"><a href="{{ route("home") }}">Voltar à Home</a></p>
         </div>
 
@@ -29,7 +39,7 @@
                 <p class="text-gray-600 text-sm mb-4">Explore posts por categorias.</p>
                 <ul class="space-y-2">
                     @forelse($categories as $category)
-                        <li><a href="#" class="text-emerald-600 hover:underline">{{ $category->name }}</a></li>
+                        <li><a href="{{ route("category.show", $category->slug) }}" class="text-emerald-600 hover:underline">{{ $category->name }}</a></li>
                     @empty
                         <li><a href="#" class="text-gray-500">Nenhuma categoria encontrada.</a></li>
                     @endforelse
@@ -42,7 +52,7 @@
                 <p class="text-gray-600 text-sm mb-4">As tags ajudam a encontrar posts relacionados.</p>
                 <div class="flex flex-wrap gap-2">
                     @forelse($tags as $tag)
-                        <a href="#"
+                        <a href="{{ route('tag.show', $tag->slug) }}"
                             class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm hover:bg-emerald-700 transition">{{ $tag->name }}</a>
                     @empty
                         <a href="#" class="bg-gray-300 text-gray-500 px-3 py-1 rounded-full text-sm">Nenhuma TAG encontrada.</a>
