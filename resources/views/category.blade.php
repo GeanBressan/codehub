@@ -5,6 +5,10 @@
 @section('content')
     <!-- Main content -->
     <main class="max-w-7xl mx-auto px-6 mt-10">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Posts em: {{ $category->name }}</h1>
+            <a href="{{ route('home') }}" class="text-emerald-600 hover:underline">Voltar à Home</a>
+        </div>
         <div class="grid md:grid-cols-3 gap-10">
             <!-- Posts section -->
             <section class="md:col-span-2 space-y-6">
@@ -20,20 +24,25 @@
                             <img src="https://i.pravatar.cc/40?img=5" class="w-10 h-10 rounded-full" alt="avatar">
                             <div>
                                 <p class="text-sm font-semibold">Ana Coder</p>
-                                <p class="text-xs text-gray-400">Em: <a href="{{ route("category.show", $post->category->slug) }}" class="hover:text-emerald-600 cursor-pointer">{{ $post->category->name }}</a> - {{ $post->post_at->diffForHumans() }}</p>
+                                <p class="text-xs text-gray-400">Em: <a href="{{ route("category.show", $post->category->slug) }}"
+                                    class="hover:text-emerald-600 cursor-pointer">{{ $post->category->name }}</a> -
+                                    {{ $post->post_at->diffForHumans() }}</p>
                             </div>
                         </div>
-                        <a href="{{ route("post.show", $post->slug) }}" class="text-2xl font-semibold text-gray-900 hover:text-emerald-600 cursor-pointer">{{ $post->title }}</a>
+                        <a href="{{ route("post.show", $post->slug) }}"
+                            class="text-2xl font-semibold text-gray-900 hover:text-emerald-600 cursor-pointer">{{ $post->title }}</a>
                         <p class="text-gray-700 leading-relaxed mb-4 mt-4">{{ $post->description }}</p>
                         <div class="flex flex-wrap gap-2 mb-4">
                             @forelse($post->tags as $tag)
                                 <a href="{{ route('tag.show', $tag->slug) }}"
                                     class="bg-emerald-600 text-white px-2 py-1 rounded-full text-[12px] hover:bg-emerald-700 transition">{{ $tag->name }}</a>
                             @empty
-                                <a href="#" class="bg-gray-300 text-gray-500 px-2 py-1 rounded-full text-[12px]">Nenhuma TAG encontrada.</a>
+                                <a href="#" class="bg-gray-300 text-gray-500 px-2 py-1 rounded-full text-[12px]">Nenhuma TAG
+                                    encontrada.</a>
                             @endforelse
                         </div>
-                        <a href="{{ route("post.show", $post->slug) }}" class="text-emerald-600 font-medium hover:underline">Continuar lendo →</a>
+                        <a href="{{ route("post.show", $post->slug) }}"
+                            class="text-emerald-600 font-medium hover:underline">Continuar lendo →</a>
                     </article>
                 @empty
                     <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center">
@@ -47,8 +56,8 @@
             <!-- Sidebar -->
             <aside class="space-y-8">
                 <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800"><i
-                            class="fas fa-folder-open mr-2"></i>Categorias</h3>
+                    <h3 class="text-lg font-semibold mb-3 text-gray-800"><i class="fas fa-folder-open mr-2"></i>Categorias
+                    </h3>
                     <p class="text-gray-600 text-sm mb-4">Explore posts por categorias.</p>
                     <ul class="space-y-2">
                         @forelse($categories as $category)
@@ -65,9 +74,11 @@
                     <p class="text-gray-600 text-sm mb-4">As tags ajudam a encontrar posts relacionados.</p>
                     <div class="flex flex-wrap gap-2">
                         @forelse($tags as $tag)
-                            <a href="{{ route('tag.show', $tag->slug) }}" class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm hover:bg-emerald-700 transition">{{ $tag->name }}</a>
+                            <a href="{{ route('tag.show', $tag->slug) }}"
+                                class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm hover:bg-emerald-700 transition">{{ $tag->name }}</a>
                         @empty
-                            <a href="#" class="bg-gray-300 text-gray-500 px-3 py-1 rounded-full text-sm">Nenhuma TAG encontrada.</a>
+                            <a href="#" class="bg-gray-300 text-gray-500 px-3 py-1 rounded-full text-sm">Nenhuma TAG
+                                encontrada.</a>
                         @endforelse
                     </div>
                 </div>
