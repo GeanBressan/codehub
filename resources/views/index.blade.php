@@ -12,8 +12,8 @@
 
                 @forelse($posts as $post)
                     <article class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
-                        @if ($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                        @if ($post->cover_path)
+                            <img src="{{ asset('storage/' . $post->cover_path) }}" alt="{{ $post->title }}"
                                 title="{{ $post->title }}" class="rounded-xl mb-4 max-h-96 object-cover w-full">
                         @endif
                         <div class="flex items-center gap-4 mb-4">
@@ -23,9 +23,9 @@
                                 <p class="text-xs text-gray-400">Em: {{ $post->category->name }} - {{ $post->post_at->diffForHumans() }}</p>
                             </div>
                         </div>
-                        <h2 class="text-2xl font-semibold text-gray-900 mb-3 hover:text-emerald-600 cursor-pointer">{{ $post->title }}</h2>
-                        <p class="text-gray-700 leading-relaxed mb-4">{{ $post->description }}</p>
-                        <a href="#" class="text-emerald-600 font-medium hover:underline">Continuar lendo →</a>
+                        <a href="{{ route("post.show", $post->slug) }}" class="text-2xl font-semibold text-gray-900 hover:text-emerald-600 cursor-pointer">{{ $post->title }}</a>
+                        <p class="text-gray-700 leading-relaxed mb-4 mt-4">{{ $post->description }}</p>
+                        <a href="{{ route("post.show", $post->slug) }}" class="text-emerald-600 font-medium hover:underline">Continuar lendo →</a>
                     </article>
                 @empty
                     <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center">

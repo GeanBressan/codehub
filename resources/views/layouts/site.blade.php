@@ -52,7 +52,7 @@
     <!-- Footer -->
     <footer class="mt-16 py-4 bg-white border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
-            <p class="mb-4">© 2025 MyDevBlog • Feito por ☠️ HEISENDEV.</p>
+            <p class="mb-4">© 2025 CODEHUB • Feito por ☠️ HEISENDEV.</p>
             <div class="space-x-4 text-gray-400 text-[20px]">
                 <a href="#" class="hover:text-emerald-600"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="hover:text-emerald-600"><i class="fab fa-github"></i></a>
