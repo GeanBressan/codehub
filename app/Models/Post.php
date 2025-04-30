@@ -21,4 +21,9 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class, "post_tag");
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
 }

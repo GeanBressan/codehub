@@ -6,12 +6,15 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use League\CommonMark\CommonMarkConverter;
 
 class SiteController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
         $categories = Category::whereHas('posts', function ($query) {
             $query->where('post_at', '<=', now());
         })->inRandomOrder()->limit(10)->get();
@@ -22,11 +25,11 @@ class SiteController extends Controller
 
         $posts = Post::where('status', 'published')
             ->where('post_at', '<=', now())
-            ->with(['category'])
+            ->with(['category', 'tags', 'user'])
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
-        return view('index', compact('categories', 'tags', 'posts'));
+        return view('index', compact('categories', 'tags', 'posts', 'user'))->with('success', 'teste');
     }
 
     public function show(Request $request, $slug)
@@ -40,7 +43,7 @@ class SiteController extends Controller
         })->inRandomOrder()->limit(20)->get();
 
         $post = Post::where('slug', $slug)
-            ->with(['category', 'tags'])
+            ->with(['category', 'tags', 'user'])
             ->firstOrFail();
 
         $converter = new CommonMarkConverter();
@@ -66,7 +69,7 @@ class SiteController extends Controller
         $posts = Post::where('status', 'published')
             ->where('post_at', '<=', now())
             ->where('category_id', $category->id)
-            ->with(['category', 'tags'])
+            ->with(['category', 'tags', 'user'])
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
@@ -90,7 +93,7 @@ class SiteController extends Controller
             ->whereHas('tags', function ($query) use ($tag) {
                 $query->where('tags.id', $tag->id);
             })
-            ->with(['category'])
+            ->with(['category', 'tags', 'user'])
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
