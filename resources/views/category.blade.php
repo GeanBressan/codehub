@@ -21,9 +21,10 @@
                                 title="{{ $post->title }}" class="rounded-xl mb-4 max-h-96 object-cover w-full">
                         @endif
                         <div class="flex items-center gap-4 mb-4">
-                            <img src="https://i.pravatar.cc/40?img=5" class="w-10 h-10 rounded-full" alt="avatar">
+                            <img src="{{ $post->user->cover_path ?? 'https://ui-avatars.com/api/?name=' . urlencode($post->user->name) . '&background=0D8ABC&color=fff'  }}"
+                                class="w-10 h-10 rounded-full" alt="avatar">
                             <div>
-                                <p class="text-sm font-semibold">Ana Coder</p>
+                                <p class="text-sm font-semibold">{{ $post->user->name }}</p>
                                 <p class="text-xs text-gray-400">Em: <a href="{{ route("category.show", $post->category->slug) }}"
                                     class="hover:text-emerald-600 cursor-pointer">{{ $post->category->name }}</a> -
                                     {{ $post->post_at->diffForHumans() }}</p>
