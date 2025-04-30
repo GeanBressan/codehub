@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string("cover_path")->nullable();
             $table->string("status")->default("draft");
             $table->timestamp("post_at")->nullable();
-            $table->unsignedBigInteger("category_id");
-            $table->foreign("category_id")->references("id")->on("categories")->onDelete("cascade");
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
