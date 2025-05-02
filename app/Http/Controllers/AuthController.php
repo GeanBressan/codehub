@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -25,10 +26,21 @@ class AuthController extends Controller
             'password.confirmed' => 'Passwords do not match.',
         ]);
 
+        $slugBase = Str::slug($request->name, '');
+        $slug = $slugBase;
+
+        $counter = 1;
+        while (User::where('username', $slug)->exists()) {
+            $slug = $slugBase . $counter;
+            $counter++;
+        }
+
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'username' => $slug,
         ]);
 
         Auth::login($user);
