@@ -37,7 +37,9 @@
     <header class="bg-white dark:bg-gray-800 border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
             <div class="w-[120px] h-[75px]">
-                <img src="{{ asset('images/codehub-logo.svg') }}" class="w-full h-full object-contain" alt="CODEHUB">
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <img src="{{ asset('images/codehub-logo.svg') }}" class="w-full h-full object-contain" alt="CODEHUB">
+                </a>
             </div>
             <nav class="flex justify-between items-center space-x-6 text-sm font-medium">
                 <a href="#" class="text-gray-700 hover:text-emerald-600">Início</a>
@@ -45,7 +47,7 @@
                 @if (Auth::check())
                     <div x-data="{ open: false }" class="relative inline-block text-left">
                         <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
-                            <img src="{{ Auth::user()->cover_path ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=0D8ABC&color=fff'  }}" alt="Avatar"
+                            <img src="{{ !Auth::user()->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=009966&color=fff' : asset('storage/' . Auth::user()->cover_path)  }}" alt="Avatar"
                                 class="w-10 h-10 rounded-full object-cover">
                             <span class="text-sm font-medium text-gray-700">
                                 {{ Auth::user()->name }}
@@ -58,8 +60,7 @@
 
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                            <a href="/perfil" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
-                            <a href="/configuracoes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Configurações</a>
+                            <a href="{{ route("profile.index") }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
                             <form method="POST" action="{{ route('logout') }}" class="block">
                                 @csrf
                                 <button type="submit"
