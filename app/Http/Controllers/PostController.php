@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index($slug)
     {
         $post = Post::where('slug', $slug)
-            ->with(['category', 'tags', 'user'])
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
             ->firstOrFail();
         
         if ($post->status !== 'published' && $post->user_id !== Auth::id()) {
@@ -44,7 +44,7 @@ class PostController extends Controller
                     }
                 ])->orderByDesc('common_tags_count');
             })
-            ->with(['category', 'tags', 'user'])
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
             ->limit(5)
             ->get();
 
@@ -76,11 +76,11 @@ class PostController extends Controller
                 ->get();
         }
 
-        $mostViewedPosts = Post::where('status', 'published')
+        $popularPosts = Post::where('status', 'published')
             ->where('post_at', '<=', now())
-            ->where('id', '!=', $postId)
-            ->orderByDesc('views')
-            ->with(['category', 'tags', 'user'])
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
+            ->withCount('likedByUsers as likes')
+            ->orderBy('likes', 'desc')
             ->limit(5)
             ->get();
 
@@ -101,7 +101,7 @@ class PostController extends Controller
             }
         }
 
-        return view('post.index', compact('post', 'recommendedPosts', 'mostViewedPosts'));
+        return view('post.index', compact('post', 'recommendedPosts', 'popularPosts'));
     }
 
     public function create()

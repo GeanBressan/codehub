@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
+use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
