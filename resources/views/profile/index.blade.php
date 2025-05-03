@@ -87,7 +87,7 @@
                                 <div class="text-sm text-gray-500"><i class="fas fa-eye mr-1"></i>
                                     Visualizações <span class="font-semibold">{{ $post->views }}</span></div>
                                 <div class="text-sm text-gray-500"><i
-                                        class="fas fa-heart mr-1"></i> Likes <span class="font-semibold">{{ $post->likes }} 0</span></div>
+                                        class="fas fa-heart mr-1"></i> Likes <span class="font-semibold">{{ $post->likedByUsers->count() }}</span></div>
                                 <div class="text-sm text-gray-500"><i
                                         class="fas fa-comment mr-1"></i> Comentários <span class="font-semibold">{{ $post->comments_count }} 0</span></div>
                             </div>

@@ -26,14 +26,15 @@ class SiteController extends Controller
 
         $posts = Post::where('status', 'published')
             ->where('post_at', '<=', now())
-            ->with(['category', 'tags', 'user'])
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
         $popularPosts = Post::where('status', 'published')
             ->where('post_at', '<=', now())
-            ->with(['category', 'tags', 'user'])
-            ->orderBy('views', 'desc')
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
+            ->withCount('likedByUsers as likes')
+            ->orderBy('likes', 'desc')
             ->limit(5)
             ->get();
 

@@ -44,7 +44,12 @@
                                 <a href="#" class="bg-gray-300 text-gray-500 px-2 py-1 rounded-full text-[12px]">Nenhuma TAG encontrada.</a>
                             @endforelse
                         </div>
-                        <a href="{{ route("post.show", $post->slug) }}" class="text-emerald-600 font-medium hover:underline">Continuar lendo →</a>
+                        <div class="flex items-center gap-4 mt-2">
+                            <div class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-eye mr-1"></i> <span
+                                    class="font-semibold">{{ $post->views }}</span></div>
+                            <div class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-heart mr-1"></i>
+                                <span class="font-semibold">{{ $post->likedByUsers->count() }}</span></div>
+                        </div>
                     </article>
                 @empty
                     <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center">
@@ -75,9 +80,9 @@
                     </ul>
                 </div>
                 <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-star mr-2"></i>Posts
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-heart mr-2"></i>Posts
                         Populares</h3>
-                    <p class="text-gray-600 text-sm mb-4">Os posts mais vistos.</p>
+                    <p class="text-gray-600 text-sm mb-4">Os posts mais curtidos.</p>
                     <ul class="space-y-4">
                         @foreach ($popularPosts as $popularPost)
                             <li class="bg-gray-100 border border-gray-200 p-4 rounded-lg">
