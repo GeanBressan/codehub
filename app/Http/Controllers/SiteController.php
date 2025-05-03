@@ -8,6 +8,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use League\CommonMark\CommonMarkConverter;
+use App\Models\User;
 
 class SiteController extends Controller
 {
@@ -29,29 +30,27 @@ class SiteController extends Controller
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
-        return view('index', compact('categories', 'tags', 'posts', 'user'))->with('success', 'teste');
-    }
-
-    public function show(Request $request, $slug)
-    {
-        $categories = Category::whereHas('posts', function ($query) {
-            $query->where('post_at', '<=', now());
-        })->inRandomOrder()->limit(10)->get();
-
-        $tags = Tag::whereHas('posts', function ($query) {
-            $query->where('post_at', '<=', now());
-        })->inRandomOrder()->limit(20)->get();
-
-        $post = Post::where('slug', $slug)
+        $popularPosts = Post::where('status', 'published')
+            ->where('post_at', '<=', now())
             ->with(['category', 'tags', 'user'])
-            ->firstOrFail();
+            ->orderBy('views', 'desc')
+            ->limit(5)
+            ->get();
 
-        $converter = new CommonMarkConverter();
-        $post->content = $converter->convertToHtml($post->content);
-        $post->content = str_replace('<p>', '<p class="text-gray-700 mb-4">', $post->content);
-        $post->content = str_replace('<h3>', '<h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">', $post->content);
-        
-        return view('post-view', compact('categories', 'tags', 'post'));
+        $popularAuthors = User::whereHas('posts', function ($query) {
+            $query->where('status', 'published')
+                ->where('post_at', '<=', now());
+                })->withSum([
+                    'posts as views_sum' => function ($query) {
+                        $query->where('status', 'published')
+                            ->where('post_at', '<=', now());
+                    }
+                ], 'views')
+            ->orderByDesc('views_sum')
+            ->limit(5)
+            ->get();
+
+        return view('index', compact('categories', 'tags', 'posts', 'user', 'popularPosts', 'popularAuthors'))->with('success', 'teste');
     }
 
     public function category($slug)
