@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string("title");
             $table->string("slug")->unique();
             $table->text("description")->nullable();
-            $table->text("content");
+            $table->longText("content");
             $table->string("cover_path")->nullable();
             $table->string("status")->default("draft");
+            $table->integer("views")->default(0);
             $table->timestamp("post_at")->nullable();
             $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();

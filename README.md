@@ -72,8 +72,10 @@ php artisan serve
 
 ## 🎯 Melhorias futuras
 
-* Adicionar sistema de comentários
+* Sistema de comentários
 * Sistema de curtidas nos posts
+* Sistema de Follow entre os usuarios
+* Sistema de salvar postagens
 
 ## 👨‍💻 Autor
 

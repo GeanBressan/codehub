@@ -8,6 +8,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="bg-red-100 text-red-800 px-4 py-3 rounded border border-red-300 mb-2">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-bold text-gray-900"><i class="fas fa-user-edit mr-2"></i> Editar Perfil</h1>
         </div>

@@ -8,6 +8,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="bg-red-100 text-red-800 px-4 py-3 rounded border border-red-300 mb-2">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="grid md:grid-cols-3 gap-10">
             <!-- Posts section -->
             <section class="md:col-span-2 space-y-6">
@@ -41,14 +46,14 @@
 
                     @if ($loggedUserID == $user->id)
                         <div class="mt-4">
-                            <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-plus-circle mr-1"></i> Criar
+                            <a href="{{ route("post.create") }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-plus-circle mr-1"></i> Criar
                                 Novo
                                 Post</a>
                         </div>
                     @else
                         <div class="mt-4">
                             <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-user-plus mr-1"></i> Seguir</a>
-                            <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-envelope mr-1"></i> Mensagem</a>
+                            <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-user-minus mr-1"></i> Deixar de seguir</a>
                         </div>
                     @endif
 
@@ -66,9 +71,9 @@
                             <p class="text-sm text-gray-600 mt-2">Publicado {{ $post->post_at->diffForHumans() }}</p>
                             @if ($loggedUserID == $user->id)
                                 <div class="flex items-center mt-2 space-x-4">
-                                    <a href="" class="text-sm text-gray-500 hover:text-emerald-600 mr-2"><i
+                                    <a href="{{ route("post.edit", $post->id) }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-2"><i
                                             class="fas fa-pencil"></i> Editar Post</a>
-                                    <form action="" method="POST" class="inline">
+                                    <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-sm text-gray-500 hover:text-emerald-600"><i
@@ -80,7 +85,7 @@
                                 <div class="text-sm text-gray-500"><i
                                         class="fas fa-book mr-1"></i> Status: <span class="font-semibold">{{ $post->status }}</span></div>
                                 <div class="text-sm text-gray-500"><i class="fas fa-eye mr-1"></i>
-                                    Visualizações <span class="font-semibold">{{ $post->views }} 0</span></div>
+                                    Visualizações <span class="font-semibold">{{ $post->views }}</span></div>
                                 <div class="text-sm text-gray-500"><i
                                         class="fas fa-heart mr-1"></i> Likes <span class="font-semibold">{{ $post->likes }} 0</span></div>
                                 <div class="text-sm text-gray-500"><i

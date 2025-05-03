@@ -58,6 +58,39 @@
             <!-- Sidebar -->
             <aside class="space-y-8">
                 <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-user-friends mr-2"></i>Autores
+                        Populares</h3>
+                    <p class="text-gray-600 text-sm mb-4">Conheça os autores mais populares.</p>
+                    <ul class="space-y-4">
+                        @foreach ($popularAuthors as $author)
+                            <li class="flex items-center gap-4">
+                                <img src="{{ !$author->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode($author->name) . '&background=009966&color=fff' : asset('storage/' . $author->cover_path)  }}" class="w-10 h-10 rounded-full object-cover" alt="avatar">
+                                <div>
+                                    <a href="{{ route("profile.show", $author->username) }}"
+                                        class="text-sm font-semibold hover:text-emerald-600">{{ $author->name }}</a>
+                                    <p class="text-xs text-gray-400">Visualizações: {{ $author->views_sum }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-star mr-2"></i>Posts
+                        Populares</h3>
+                    <p class="text-gray-600 text-sm mb-4">Os posts mais vistos.</p>
+                    <ul class="space-y-4">
+                        @foreach ($popularPosts as $popularPost)
+                            <li class="bg-gray-100 border border-gray-200 p-4 rounded-lg">
+                                <a href="{{ route("post.show", $popularPost->slug) }}"
+                                    class="text-sm text-emerald-600 hover:underline">{{ $popularPost->title }}</a>
+                                <p class="text-gray-500 text-xs mt-1">Por {{ $popularPost->user->name }} -
+                                    {{ $popularPost->post_at->diffForHumans() }}
+                                </p>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
                     <h3 class="text-lg font-semibold mb-3 text-gray-800"><i
                             class="fas fa-folder-open mr-2"></i>Categorias</h3>
                     <p class="text-gray-600 text-sm mb-4">Explore posts por categorias.</p>
@@ -81,18 +114,6 @@
                             <a href="#" class="bg-gray-300 text-gray-500 px-3 py-1 rounded-full text-sm">Nenhuma TAG encontrada.</a>
                         @endforelse
                     </div>
-                </div>
-
-                <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800"><i
-                            class="fas fa-envelope-open-text mr-2"></i>Newsletter</h3>
-                    <p class="text-gray-600 text-sm mb-4">Receba os melhores posts direto na sua caixa de entrada.</p>
-                    <form class="flex flex-col gap-3">
-                        <input type="email" placeholder="Seu e-mail"
-                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                        <button
-                            class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">Inscrever-se</button>
-                    </form>
                 </div>
             </aside>
         </div>
