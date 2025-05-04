@@ -29,32 +29,31 @@
                             <p class="text-gray-500">{{ $user->bio }}</p>
                             </p>
                             <p class="mt-2 text-sm text-gray-400">Membro {{ $user->created_at->diffForHumans() }}</p>
-                            <div class="flex items-center mt-4 space-x-4">
-                                <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i
+                            <div class="flex items-center mt-4 gap-x-4">
+                                <a href="{{ route('profile.following', $user->username) }}" class="text-sm text-gray-500 hover:text-emerald-600"><i
                                         class="fas fa-user-friends mr-1"></i> Seguindo <span
-                                        class="font-semibold">0</span></a>
-                                <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i
-                                        class="fas fa-user-friends mr-1"></i> Seguidores <span
-                                        class="font-semibold">0</span></a>
+                                        class="font-semibold">{{ $user->following_count }}</span></a>
+                                @livewire('follow-count', ['user' => $user])
                                 <div class="text-sm text-gray-500"><i
-                                        class="fas fa-book mr-1"></i> Posts <span class="font-semibold">{{ $posts->total() }}</span></div>
+                                        class="fas fa-book mr-1"></i> Posts <span class="font-semibold">{{ $user->posts_count }}</span></div>
                             </div>
                         </div>
                     </div>
 
-                    <hr class="my-6">
+                    @if (auth()->user())
+                        <hr class="my-6">
 
-                    @if ($loggedUserID == $user->id)
-                        <div class="mt-4">
-                            <a href="{{ route("post.create") }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-plus-circle mr-1"></i> Criar
-                                Novo
-                                Post</a>
-                        </div>
-                    @else
-                        <div class="mt-4">
-                            <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-user-plus mr-1"></i> Seguir</a>
-                            <a href="#" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i class="fas fa-user-minus mr-1"></i> Deixar de seguir</a>
-                        </div>
+                        @if ($loggedUserID == $user->id)
+                            <div class="mt-4">
+                                <a href="{{ route("post.create") }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i
+                                        class="fas fa-plus-circle mr-1"></i> Criar
+                                    Novo
+                                    Post</a>
+                            </div>
+                        @else
+                            @livewire('follow-action', ['user' => $user])
+                        @endif
+
                     @endif
 
                     <hr class="my-6">
@@ -104,43 +103,7 @@
                     <h3 class="text-lg font-semibold mb-3 text-gray-800"><i class="fas fa-user-friends mr-2"></i>Seguidores
                     </h3>
                     <p class="text-gray-600 text-sm mb-4">Veja quem está seguindo {{ ($loggedUserID != $user->id ? $user->name : "você") }}.</p>
-                    <ul class="space-y-2">
-                        <li class="flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/150?img=1" alt="Avatar" class="w-10 h-10 rounded-full">
-                            <div>
-                                <p class="text-sm font-semibold">Maria Silva</p>
-                                <p class="text-xs text-gray-400">Seguindo você</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/150?img=2" alt="Avatar" class="w-10 h-10 rounded-full">
-                            <div>
-                                <p class="text-sm font-semibold">Carlos Souza</p>
-                                <p class="text-xs text-gray-400">Seguindo você</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/150?img=3" alt="Avatar" class="w-10 h-10 rounded-full">
-                            <div>
-                                <p class="text-sm font-semibold">Ana Oliveira</p>
-                                <p class="text-xs text-gray-400">Seguindo você</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/150?img=4" alt="Avatar" class="w-10 h-10 rounded-full">
-                            <div>
-                                <p class="text-sm font-semibold">Lucas Santos</p>
-                                <p class="text-xs text-gray-400">Seguindo você</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <img src="https://i.pravatar.cc/150?img=5" alt="Avatar" class="w-10 h-10 rounded-full">
-                            <div>
-                                <p class="text-sm font-semibold">Fernanda Lima</p>
-                                <p class="text-xs text-gray-400">Seguindo você</p>
-                            </div>
-                        </li>
-                    </ul>
+                    @livewire('follow-list', ['user' => $user])
                 </div>
             </aside>
         </div>

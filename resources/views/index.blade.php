@@ -73,7 +73,7 @@
                                 <div>
                                     <a href="{{ route("profile.show", $author->username) }}"
                                         class="text-sm font-semibold hover:text-emerald-600">{{ $author->name }}</a>
-                                    <p class="text-xs text-gray-400">Visualizações: {{ $author->views_sum }}</p>
+                                    <p class="text-xs text-gray-400">Seguidores: {{ $author->followers_count }}</p>
                                 </div>
                             </li>
                         @endforeach

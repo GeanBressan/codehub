@@ -24,7 +24,12 @@ class UserController extends Controller
     public function show($username)
     {
         $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
-        $user = User::where('username', $username)->first();
+        $user = User::where('username', $username)
+        ->withCount('posts as posts_count')
+        ->withCount('followers as followers_count')
+        ->withCount('following as following_count')
+        ->with(['followers', 'following'])
+        ->first();
 
         if (!$user) {
             return redirect()->route('home')->with('error', 'Usuário não encontrado.');
@@ -46,6 +51,48 @@ class UserController extends Controller
         }
         $posts = $user->savedPosts()->with(['user', 'tags', 'category'])->withCount('likedByUsers as likes_count')->latest()->paginate(9);
         return view('profile.saved-posts', compact('posts'));
+    }
+
+    public function following($username)
+    {
+        $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
+
+        $user = User::where('username', $username)
+            ->withCount('posts as posts_count')
+            ->withCount('followers as followers_count')
+            ->withCount('following as following_count')
+            ->first();
+
+        if (!$user) {
+            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
+        }
+
+        $title = 'Seguindo';
+
+        $followList = $user->following()->latest()->paginate(9);
+
+        return view('profile.follows-list', compact('followList', 'user', 'loggedUserID', 'title'));
+    }
+
+    public function followers($username)
+    {
+        $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
+
+        $user = User::where('username', $username)
+            ->withCount('posts as posts_count')
+            ->withCount('followers as followers_count')
+            ->withCount('following as following_count')
+            ->first();
+
+        if (!$user) {
+            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
+        }
+
+        $title = 'Seguidores';
+
+        $followList = $user->followers()->latest()->paginate(9);
+
+        return view('profile.follows-list', compact('followList', 'user', 'loggedUserID', 'title'));
     }
 
     public function edit($username)
