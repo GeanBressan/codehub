@@ -38,6 +38,16 @@ class UserController extends Controller
         return view('profile.index', compact('loggedUserID', 'user', 'posts'));
     }
 
+    public function savedPosts()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
+        }
+        $posts = $user->savedPosts()->with(['user', 'tags', 'category'])->withCount('likedByUsers as likes_count')->latest()->paginate(9);
+        return view('profile.saved-posts', compact('posts'));
+    }
+
     public function edit($username)
     {
         $user = auth()->user();

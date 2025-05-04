@@ -38,18 +38,21 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
     <!-- Header -->
     <header class="bg-white dark:bg-gray-800 border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
-            <div class="w-[120px] h-[75px]">
+            <div class="w-[100px] h-[65px]">
                 <a href="{{ route('home') }}" class="flex items-center">
                     <img src="{{ asset('images/codehub-logo.svg') }}" class="w-full h-full object-contain" alt="CODEHUB">
                 </a>
             </div>
             <nav class="flex justify-between items-center space-x-6 text-sm font-medium">
-                <a href="#" class="text-gray-700 hover:text-emerald-600">Início</a>
-                <button onclick="document.documentElement.classList.toggle('dark')">🌙</button>
+                <form action="" method="GET" class="flex items-center">
+                    <input type="text" name="query" placeholder="Pesquisar..." class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                    <button type="submit" class="ml-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+                <button id="dark-mode-toggle"><i class="fa-solid fa-circle-half-stroke text-indigo-700 dark:text-amber-300"></i></button>
                 @if (Auth::check())
                     <div x-data="{ open: false }" class="relative inline-block text-left">
                         <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
@@ -67,6 +70,7 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                             <a href="{{ route("profile.index") }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
+                            <a href="{{ route("profile.savedPosts") }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Salvos</a>
                             <form method="POST" action="{{ route('logout') }}" class="block">
                                 @csrf
                                 <button type="submit"
@@ -87,19 +91,37 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="mt-16 py-4 bg-white border-t border-gray-200">
+    <footer class="mt-auto py-4 bg-white border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
-            <p class="mb-4">© 2025 CODEHUB • Feito por ☠️ HEISENDEV.</p>
-            <div class="space-x-4 text-gray-400 text-[20px]">
-                <a href="#" class="hover:text-emerald-600"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-emerald-600"><i class="fab fa-github"></i></a>
-                <a href="#" class="hover:text-emerald-600"><i class="fab fa-linkedin"></i></a>
+            <p class="mb-4">© 2025 CODEHUB • Feito por ☠️ Gean Bressan.</p>
+            <div class="text-gray-400 text-[20px] flex justify-center gap-x-4">
+                <a href="https://www.instagram.com/geanbressan/" target="_blank" class="hover:text-emerald-600"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/GeanBressan" target="_blank" class="hover:text-emerald-600"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/gean-bressan/" target="_blank" class="hover:text-emerald-600"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </footer>
 
     @livewireScripts
     @yield('scripts')
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.querySelector('#dark-mode-toggle');
+        const darkMode = localStorage.getItem('dark-mode');
+        if (darkMode === 'enabled') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        });
+    </script>
 </body>
 
 </html>

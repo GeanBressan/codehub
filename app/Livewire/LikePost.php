@@ -2,9 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Post;
 use Livewire\Component;
-use App\Models\User;
 use App\Models\PostLike;
 use Illuminate\Support\Facades\Auth;
 
