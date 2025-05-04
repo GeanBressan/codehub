@@ -46,6 +46,8 @@ Route::group([
 ], function () {
     Route::get('/', 'index')->name('index');
     Route::get('/salvos', 'savedPosts')->name('savedPosts');
+    Route::get('/{username}/following', 'following')->name('following');
+    Route::get('/{username}/followers', 'followers')->name('followers');
     Route::get('/{username}', 'show')->name('show');
     Route::get('/{username}/edit', 'edit')->name('edit');
     Route::put('/{id}', 'update')->name('update');

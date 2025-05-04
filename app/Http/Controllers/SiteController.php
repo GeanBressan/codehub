@@ -38,16 +38,9 @@ class SiteController extends Controller
             ->limit(5)
             ->get();
 
-        $popularAuthors = User::whereHas('posts', function ($query) {
-            $query->where('status', 'published')
-                ->where('post_at', '<=', now());
-                })->withSum([
-                    'posts as views_sum' => function ($query) {
-                        $query->where('status', 'published')
-                            ->where('post_at', '<=', now());
-                    }
-                ], 'views')
-            ->orderByDesc('views_sum')
+        $popularAuthors = User::withCount('followers')
+            ->whereHas('followers')
+            ->orderBy('followers_count', 'desc')
             ->limit(5)
             ->get();
 

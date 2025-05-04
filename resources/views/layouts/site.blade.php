@@ -48,10 +48,7 @@
                 </a>
             </div>
             <nav class="flex justify-between items-center space-x-6 text-sm font-medium">
-                <form action="" method="GET" class="flex items-center">
-                    <input type="text" name="query" placeholder="Pesquisar..." class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                    <button type="submit" class="ml-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+                @livewire('search')
                 <button id="dark-mode-toggle"><i class="fa-solid fa-circle-half-stroke text-indigo-700 dark:text-amber-300"></i></button>
                 @if (Auth::check())
                     <div x-data="{ open: false }" class="relative inline-block text-left">
