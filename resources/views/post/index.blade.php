@@ -50,8 +50,7 @@
                     @livewire('like-post', ['postId' => $post->id])
                     <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i
                             class="fas fa-comment-dots mr-1"></i> <span class="font-semibold">0</span></a>
-                    <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-bookmark mr-1"></i>
-                        Salvar</a>
+                    @livewire('save-post', ['postId' => $post->id])
                     <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-share-alt mr-1"></i>
                         Compartilhar</a>
                 </div>

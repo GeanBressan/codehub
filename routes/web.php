@@ -45,6 +45,7 @@ Route::group([
     'as' => 'profile.'
 ], function () {
     Route::get('/', 'index')->name('index');
+    Route::get('/salvos', 'savedPosts')->name('savedPosts');
     Route::get('/{username}', 'show')->name('show');
     Route::get('/{username}/edit', 'edit')->name('edit');
     Route::put('/{id}', 'update')->name('update');
