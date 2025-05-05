@@ -28,7 +28,7 @@
                                 class="w-10 h-10 rounded-full">
                             <h5 class="text-sm font-semibold text-gray-800">{{ $comment->user->name }}</h5>
                             <p class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
-                            @if ($comment->user->id === auth()->user()->id)
+                            @if (auth()->user() && $comment->user->id === auth()->user()->id)
                                 <button class="text-red-500 hover:text-red-700 text-xs ml-auto" wire:click="deleteComment({{$comment->id}})">Excluir</button>
                             @endif
                         </div>
