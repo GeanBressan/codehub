@@ -19,7 +19,7 @@
             <!-- Posts section -->
             <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @forelse($posts as $post)
-                    <article class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm hover:shadow-lg transition">
+                    <article class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm hover:shadow-lg transition dark:bg-neutral-950 dark:border-neutral-800">
                         @if ($post->cover_path)
                             <img src="{{ asset('storage/' . $post->cover_path) }}" alt="{{ $post->title }}"
                                 title="{{ $post->title }}" class="rounded-xl mb-4 max-h-96 h-60 object-cover w-full">
@@ -31,7 +31,7 @@
                                 <p class="text-xs text-gray-400">Em: <a href="{{ route("category.show", $post->category->slug) }}" class="hover:text-emerald-600 cursor-pointer">{{ $post->category->name }}</a> - {{ $post->post_at->diffForHumans() }}</p>
                             </div>
                         </div>
-                        <a href="{{ route("post.show", $post->slug) }}" class="text-2xl font-semibold text-gray-900 hover:text-emerald-600 cursor-pointer">{{ $post->title }}</a>
+                        <a href="{{ route("post.show", $post->slug) }}" class="text-1xl font-semibold text-gray-900 hover:text-emerald-600 cursor-pointer dark:text-white dark:hover:text-emerald-600">{{ $post->title }}</a>
                         <div class="flex flex-wrap gap-2 mt-2 mb-4">
                             @forelse($post->tags as $tag)
                                 <a href="{{ route('tag.show', $tag->slug) }}"

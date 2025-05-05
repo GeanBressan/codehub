@@ -44,7 +44,7 @@ class SiteController extends Controller
             ->limit(5)
             ->get();
 
-        return view('index', compact('categories', 'tags', 'posts', 'user', 'popularPosts', 'popularAuthors'))->with('success', 'teste');
+        return view('index', compact('categories', 'tags', 'posts', 'user', 'popularPosts', 'popularAuthors'));
     }
 
     public function category($slug)
@@ -66,7 +66,21 @@ class SiteController extends Controller
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
-        return view('category', compact('categories', 'tags', 'posts', 'category'));
+        $popularPosts = Post::where('status', 'published')
+            ->where('post_at', '<=', now())
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
+            ->withCount('likedByUsers as likes')
+            ->orderBy('likes', 'desc')
+            ->limit(5)
+            ->get();
+
+        $popularAuthors = User::withCount('followers')
+            ->whereHas('followers')
+            ->orderBy('followers_count', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('category', compact('categories', 'tags', 'posts', 'category', 'popularPosts', 'popularAuthors'));
     }
 
     public function tag(Request $request, $slug)
@@ -90,6 +104,20 @@ class SiteController extends Controller
             ->orderBy('post_at', 'desc')
             ->paginate(8);
 
-        return view('tag', compact('categories', 'tags', 'posts', 'tag'));
+        $popularPosts = Post::where('status', 'published')
+            ->where('post_at', '<=', now())
+            ->with(['category', 'tags', 'user', 'likedByUsers'])
+            ->withCount('likedByUsers as likes')
+            ->orderBy('likes', 'desc')
+            ->limit(5)
+            ->get();
+
+        $popularAuthors = User::withCount('followers')
+            ->whereHas('followers')
+            ->orderBy('followers_count', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('tag', compact('categories', 'tags', 'posts', 'tag', 'popularPosts', 'popularAuthors'));
     }
 }

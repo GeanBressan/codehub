@@ -1,8 +1,8 @@
 <div>
-    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-comments mr-2"></i>Comentários
-        <span class="text-sm text-gray-500">({{ count($comments) }})</span>
+    <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white"><i class="fas fa-comments mr-2"></i>Comentários
+        <span class="text-sm text-gray-500 dark:text-gray-300">({{ count($comments) }})</span>
     </h3>
-    <p class="text-gray-600 text-sm mb-4">Deixe seu comentário e compartilhe sua opinião!</p>
+    <p class="text-gray-600 text-sm mb-4 dark:text-gray-300">Deixe seu comentário e compartilhe sua opinião!</p>
     @if (session()->has('message'))
         <div class="bg-green-100 text-green-800 px-4 py-3 rounded border border-green-300 mb-4">
             {{ session('message') }}
@@ -18,22 +18,20 @@
     </form>
     @if (count($comments) > 0)
         <div class="mt-6">
-            <h4 class="text-lg font-semibold mb-2 text-gray-800"><i class="fas fa-comments mr-2"></i>Comentários
-            </h4>
             <ul class="space-y-4">
                 @foreach ($comments as $comment)
-                    <li class="bg-gray-200 p-4 rounded-lg">
+                    <li class="bg-gray-200 p-4 rounded-lg dark:bg-neutral-900 dark:border-neutral-800">
                         <div class="flex items-center gap-2 mb-2">
                             <img src="{{ !$comment->user->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode($comment->user->name) . '&background=009966&color=fff' : asset('storage/' . $comment->user->cover_path)  }}" alt="{{ $comment->user->name }}"
                                 class="w-10 h-10 rounded-full">
-                            <h5 class="text-sm font-semibold text-gray-800">{{ $comment->user->name }}</h5>
+                            <h5 class="text-sm font-semibold text-gray-800 dark:text-gray-300">{{ $comment->user->name }}</h5>
                             <p class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
                             @if (auth()->user() && $comment->user->id === auth()->user()->id)
                                 <button class="text-red-500 hover:text-red-700 text-xs ml-auto" wire:click="deleteComment({{$comment->id}})">Excluir</button>
                             @endif
                         </div>
-                        <div class="border-b border-gray-300 my-4"></div>
-                        <div class="text-sm text-gray-600">
+                        <div class="border-b border-gray-300 my-4 dark:border-neutral-800"></div>
+                        <div class="text-sm text-gray-600 dark:text-gray-300">
                             <p>{{ $comment->content }}</p>
                         </div>
                     </li>
