@@ -45,40 +45,16 @@
                     @endforelse
                 </div>
                 <div class="flex items-center gap-4 mt-6">
-                    <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-eye mr-1"></i> <span
-                            class="font-semibold">{{ $post->views }}</span></a>
+                    <div class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-eye mr-1"></i> <span
+                            class="font-semibold">{{ $post->views }}</span></div>
                     @livewire('like-post', ['postId' => $post->id])
-                    <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i
-                            class="fas fa-comment-dots mr-1"></i> <span class="font-semibold">0</span></a>
                     @livewire('save-post', ['postId' => $post->id])
-                    <a href="#" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-share-alt mr-1"></i>
-                        Compartilhar</a>
                 </div>
                 <p class="mt-8 text-emerald-600 hover:underline"><a href="{{ route("home") }}">Voltar à Home</a></p>
 
                 <!-- Comments section -->
                 <div class="bg-gray-100 p-6 rounded-xl">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-comments mr-2"></i>Comentários
-                    </h3>
-                    <p class="text-gray-600 text-sm mb-4">Seja o primeiro a comentar!</p>
-                    <form class="flex flex-col gap-3">
-                        <textarea rows="4" placeholder="Escreva seu comentário..."
-                            class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-                        <button
-                            class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">Enviar</button>
-                    </form>
-                    <div class="mt-6">
-                        <h4 class="text-lg font-semibold mb-2 text-gray-800"><i class="fas fa-comments mr-2"></i>Comentários
-                        </h4>
-                        <ul class="space-y-4">
-                            <li class="bg-gray-200 p-4 rounded-lg">
-                                <p class="text-sm text-gray-500">Comentário de exemplo 1</p>
-                            </li>
-                            <li class="bg-gray-200 p-4 rounded-lg">
-                                <p class="text-sm text-gray-500">Comentário de exemplo 2</p>
-                            </li>
-                        </ul>
-                    </div>
+                    @livewire('comments', ['postId' => $post->id])
                 </div>
             </div>
 

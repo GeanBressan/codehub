@@ -37,6 +37,8 @@ class UserController extends Controller
 
         $posts = Post::where('user_id', $user->id)
             ->with(['category', 'tags'])
+            ->withCount('likedByUsers as likes_count')
+            ->withCount('comments as comments_count')
             ->latest()
             ->paginate(10);
 

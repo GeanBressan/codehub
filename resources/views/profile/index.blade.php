@@ -80,15 +80,15 @@
                                     </form>
                                 </div>
                             @endif
-                            <div class="flex items-center mt-2 space-x-4">
+                            <div class="flex items-center mt-2 gap-x-4">
                                 <div class="text-sm text-gray-500"><i
                                         class="fas fa-book mr-1"></i> Status: <span class="font-semibold">{{ $post->status }}</span></div>
                                 <div class="text-sm text-gray-500"><i class="fas fa-eye mr-1"></i>
                                     Visualizações <span class="font-semibold">{{ $post->views }}</span></div>
                                 <div class="text-sm text-gray-500"><i
-                                        class="fas fa-heart mr-1"></i> Likes <span class="font-semibold">{{ $post->likedByUsers->count() }}</span></div>
+                                        class="fas fa-heart mr-1"></i> Likes <span class="font-semibold">{{ $post->likes_count }}</span></div>
                                 <div class="text-sm text-gray-500"><i
-                                        class="fas fa-comment mr-1"></i> Comentários <span class="font-semibold">{{ $post->comments_count }} 0</span></div>
+                                        class="fas fa-comment mr-1"></i> Comentários <span class="font-semibold">{{ $post->comments_count }}</span></div>
                             </div>
                         </article>
                     @endforeach
