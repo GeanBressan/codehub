@@ -15,8 +15,8 @@
             </div>
         @endif
         <div class="grid md:grid-cols-3 gap-10">
-            <div class="md:col-span-2 space-y-6 bg-white p-6 rounded-xl shadow-md mb-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Editar Postagem</h2>
+            <div class="md:col-span-2 space-y-6 bg-white p-6 rounded-xl shadow-md mb-6 dark:bg-neutral-950 dark:border-neutral-800">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Editar Postagem</h2>
                 @if ($errors->any())
                     <div class="bg-red-100 text-red-800 px-4 py-3 rounded border border-red-300 mb-2">
                         <ul class="list-disc pl-5">
@@ -41,34 +41,34 @@
                     <div class="mb-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                         <input type="text" name="title" id="title" value="{{ $post->title }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                     </div>
 
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                         <input type="text" name="description" id="description" value="{{ $post->description }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                     </div>
 
                     <div class="mb-4">
                         <label for="content" class="block text-sm font-medium text-gray-700">Conteúdo</label>
                         <textarea name="content" id="content" rows="10"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 dark:bg-neutral-800"
                             >{{ $post->content }}</textarea>
                     </div>
 
                     <div class="mb-4">
                         <label for="cover_path" class="block text-sm font-medium text-gray-700">Imagem de Capa</label>
                         <input type="file" name="cover_path" id="cover_path"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2">
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800">
                     </div>
 
                     <div class="mb-4">
                         <label for="category_id" class="block text-sm font-medium text-gray-700">Categoria</label>
                         <select name="category_id" id="category_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                             <option value="{{ $post->category->id }}">{{ $post->category->name }}</option>
                             @foreach ($categories as $category)
@@ -79,7 +79,7 @@
                     <div class="mb-4">
                         <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
                         <select id="tags" name="tags[]" multiple
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                             @foreach ($post->tags as $tag)
                                 <option value="{{ $tag->name }}" selected>{{ $tag->name }}</option>
@@ -93,7 +93,7 @@
                     <div class="mb-4">
                         <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                         <select name="status" id="status"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2"
+                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                             <option value="draft" {{ $post->status == 'draft' ? 'selected' : '' }}>Rascunho</option>
                             <option value="published" {{ $post->status == 'published' ? 'selected' : '' }}>Publicado</option>
@@ -110,11 +110,13 @@
                     @method('DELETE')
                 </form>
             </div>
-            <aside class="space-y-8">
-                <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800"><i class="fas fa-book mr-2"></i>Escrevendo bons
+            <aside class="space-y-8 mb-8">
+                <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm dark:bg-neutral-950 dark:border-neutral-800">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-white"><i class="fas fa-book mr-2"></i>Escrevendo
+                        bons
                         posts</h3>
-                    <p class="text-gray-600 text-sm mb-4">Dicas para criar postagens envolventes e informativas.</p>
+                    <p class="text-gray-600 text-sm mb-4  dark:text-gray-300">Dicas para criar postagens envolventes e informativas.
+                    </p>
                     <ul class="space-y-2">
                         <li class="text-sm text-gray-500">1. Use títulos claros e descritivos.</li>
                         <li class="text-sm text-gray-500">2. Estruture seu conteúdo com subtítulos.</li>

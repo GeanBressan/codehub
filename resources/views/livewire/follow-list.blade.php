@@ -3,7 +3,7 @@
         @forelse ($user->followers as $follower)
             <li class="flex items-center gap-2">
                 <a href="{{ route('profile.show', $follower->username) }}"
-                    class="w-full flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition">
+                    class="w-full flex items-center gap-2 hover:bg-gray-100 p-2 rounded-lg transition dark:hover:bg-neutral-800">
                     <img src="{{ !$follower->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode($follower->name) . '&background=009966&color=fff' : asset('storage/' . $follower->cover_path)  }}"
                         alt="Avatar" class="w-10 h-10 rounded-full">
                     <div>

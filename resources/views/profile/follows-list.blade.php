@@ -2,7 +2,7 @@
 @section('title', 'Perfil')
 
 @section('content')
-    <main class="w-7xl mx-auto px-6 mt-10">
+    <main class="md:w-7xl mx-auto px-6 mt-10">
         @if (session('success'))
             <div class="bg-green-100 text-green-800 px-4 py-3 rounded border border-green-300 mb-2">
                 {{ session('success') }}
