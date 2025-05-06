@@ -69,9 +69,6 @@ php artisan serve
 * Tela de login e registro de usuários
 * Página inicial com listagem de posts
 * Pesquisa por categorias e tags
-
-## 🎯 Melhorias futuras
-
 * Sistema de comentários
 * Sistema de curtidas nos posts
 * Sistema de Follow entre os usuarios
