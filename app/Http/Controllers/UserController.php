@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $user = auth()->user();
@@ -23,7 +25,6 @@ class UserController extends Controller
 
     public function show($username)
     {
-        $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
         $user = User::where('username', $username)
         ->withCount('posts as posts_count')
         ->withCount('followers as followers_count')
@@ -42,23 +43,21 @@ class UserController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('profile.index', compact('loggedUserID', 'user', 'posts'));
+        return view('profile.index', compact('user', 'posts'));
     }
 
     public function savedPosts()
     {
         $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
-        }
-        $posts = $user->savedPosts()->with(['user', 'tags', 'category'])->withCount('likedByUsers as likes_count')->latest()->paginate(9);
+
+        $this->authorize('view', $user);
+        
+        $posts = $user->savedPosts()->where("status", "=" , "published")->with(['user', 'tags', 'category'])->withCount('likedByUsers as likes_count')->latest()->paginate(9);
         return view('profile.saved-posts', compact('posts'));
     }
 
     public function following($username)
     {
-        $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
-
         $user = User::where('username', $username)
             ->withCount('posts as posts_count')
             ->withCount('followers as followers_count')
@@ -73,13 +72,11 @@ class UserController extends Controller
 
         $followList = $user->following()->latest()->paginate(9);
 
-        return view('profile.follows-list', compact('followList', 'user', 'loggedUserID', 'title'));
+        return view('profile.follows-list', compact('followList', 'user', 'title'));
     }
 
     public function followers($username)
     {
-        $loggedUserID = (auth()->user()) ? auth()->user()->id : null;
-
         $user = User::where('username', $username)
             ->withCount('posts as posts_count')
             ->withCount('followers as followers_count')
@@ -94,52 +91,25 @@ class UserController extends Controller
 
         $followList = $user->followers()->latest()->paginate(9);
 
-        return view('profile.follows-list', compact('followList', 'user', 'loggedUserID', 'title'));
+        return view('profile.follows-list', compact('followList', 'user', 'title'));
     }
 
     public function edit($username)
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
-        }
-
-        if ($user->username !== $username) {
-            return redirect()->route('home')->with('error', 'Você não tem permissão para editar este perfil.');
-        }
+        $this->authorize('update', $user);
 
         return view('profile.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
-        }
+        $this->authorize('update', $user);
 
-        if ($user->id !== (int)$id) {
-            return redirect()->route('home')->with('error', 'Você não tem permissão para editar este perfil.');
-        }
-
-        $request->validate([
-            'name' => 'required|string|max:255|min:3',
-            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'bio' => 'nullable|string|max:500',
-            'cover_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], [
-            'name.required' => 'O campo nome é obrigatório.',
-            'name.max' => 'O campo nome não pode ter mais de 255 caracteres.',
-            'name.min' => 'O campo nome deve ter pelo menos 3 caracteres.',
-            'username.required' => 'O campo nome de usuário é obrigatório.',
-            'username.unique' => 'Este nome de usuário já está em uso.',
-            'bio.max' => 'A biografia não pode ter mais de 500 caracteres.',
-            'cover_path.image' => 'O arquivo deve ser uma imagem.',
-            'cover_path.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif.',
-            'cover_path.max' => 'A imagem não pode ter mais de 2MB.',
-        ]);
+        $request->validated();
 
         $user->name = $request->name;
         $user->username = $request->username;
@@ -169,13 +139,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
-        }
-
-        if ($user->id !== (int)$id) {
-            return redirect()->route('home')->with('error', 'Você não tem permissão para editar este perfil.');
-        }
+        $this->authorize('update', $user);
 
         if ($user->cover_path) {
             $oldPath = public_path('storage/' . $user->cover_path);
@@ -193,13 +157,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return redirect()->route('home')->with('error', 'Usuário não encontrado.');
-        }
-
-        if ($user->id !== (int) $id) {
-            return redirect()->route('home')->with('error', 'Você não tem permissão para deletar este perfil.');
-        }
+        $this->authorize('delete', $user);
 
         if ($user->cover_path) {
             $oldPath = public_path('storage/' . $user->cover_path);

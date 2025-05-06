@@ -26,9 +26,9 @@
                                 class="w-10 h-10 rounded-full">
                             <h5 class="text-sm font-semibold text-gray-800 dark:text-gray-300">{{ $comment->user->name }}</h5>
                             <p class="text-xs text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
-                            @if (auth()->user() && $comment->user->id === auth()->user()->id)
+                            @can('delete', $comment->user)
                                 <button class="text-red-500 hover:text-red-700 text-xs ml-auto" wire:click="deleteComment({{$comment->id}})">Excluir</button>
-                            @endif
+                            @endcan
                         </div>
                         <div class="border-b border-gray-300 my-4 dark:border-neutral-800"></div>
                         <div class="text-sm text-gray-600 dark:text-gray-300">

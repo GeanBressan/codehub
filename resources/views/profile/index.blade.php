@@ -21,9 +21,10 @@
                         <img src="{{ !$user->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=009966&color=fff' : asset('storage/' . $user->cover_path)  }}" class="w-24 h-24 rounded-full object-cover" alt="avatar">
                         <div>
                             <h1 class="text-2xl font-bold">{{ $user->name }} 
-                                @if ($loggedUserID == $user->id)
-                                    <a href="{{ route("profile.edit", $user->username) }}" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-pencil"></i> Editar Perfil</a>
-                                @endif
+                                @can('view', $user)
+                                    <a href="{{ route("profile.edit", $user->username) }}" class="text-sm text-gray-500 hover:text-emerald-600"><i
+                                            class="fas fa-pencil"></i> Editar Perfil</a>
+                                @endcan
                             </h1>
 
                             <p class="text-gray-500">{{ $user->bio }}</p>
@@ -42,8 +43,7 @@
 
                     @if (auth()->user())
                         <hr class="my-6">
-
-                        @if ($loggedUserID == $user->id)
+                        @can('view', $user)
                             <div class="mt-4">
                                 <a href="{{ route("post.create") }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-3"><i
                                         class="fas fa-plus-circle mr-1"></i> Criar
@@ -52,8 +52,7 @@
                             </div>
                         @else
                             @livewire('follow-action', ['user' => $user])
-                        @endif
-
+                        @endcan
                     @endif
 
                     <hr class="my-6">
@@ -68,18 +67,19 @@
                                     class="fas fa-book mr-1"></i> {{ $post->title }}</a>
                             <p class="text-gray-700 leading-relaxed mb-4 mt-2 dark:text-gray-300">{{ $post->description }}</p>
                             <p class="text-sm text-gray-600 mt-2">Publicado {{ $post->post_at->diffForHumans() }}</p>
-                            @if ($loggedUserID == $user->id)
+
+                            @can('view', $post)
                                 <div class="flex flex-col md:flex-row md:items-center mt-2 gap-x-4">
                                     <a href="{{ route("post.edit", $post->id) }}" class="text-sm text-gray-500 hover:text-emerald-600 mr-2"><i
                                             class="fas fa-pencil"></i> Editar Post</a>
                                     <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-sm text-gray-500 hover:text-emerald-600"><i
-                                                class="fas fa-trash-alt"></i> Excluir Post</button>
+                                        <button type="submit" class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-trash-alt"></i>
+                                            Excluir Post</button>
                                     </form>
                                 </div>
-                            @endif
+                            @endcan
                             <div class="flex flex-col md:flex-row md:items-center mt-2 gap-x-4">
                                 <div class="text-sm text-gray-500"><i
                                         class="fas fa-book mr-1"></i> Status: <span class="font-semibold">{{ $post->status }}</span></div>
@@ -102,7 +102,13 @@
                 <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm dark:bg-neutral-950 dark:border-neutral-800">
                     <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white"><i class="fas fa-user-friends mr-2"></i>Seguidores
                     </h3>
-                    <p class="text-gray-600 text-sm mb-4 dark:text-gray-300">Veja quem está seguindo {{ ($loggedUserID != $user->id ? $user->name : "você") }}.</p>
+                    <p class="text-gray-600 text-sm mb-4 dark:text-gray-300">Veja quem está seguindo 
+                    @can('view', $user)
+                        você
+                    @else
+                        {{ $user->name }}
+                    @endcan
+
                     @livewire('follow-list', ['user' => $user])
                 </div>
             </aside>

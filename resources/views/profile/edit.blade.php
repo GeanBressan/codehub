@@ -38,25 +38,25 @@
                         <div>
                             <label for="name" class="block text-sm font-semibold text-gray-700">Nome</label>
                             <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">
+                                class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">
                         </div>
 
                         <div>
                             <label for="username" class="block text-sm font-semibold text-gray-700">Usuário</label>
                             <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">
+                                class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">
                         </div>
 
                         <div>
                             <label for="bio" class="block text-sm font-semibold text-gray-700">Bio</label>
                             <textarea name="bio" id="bio" rows="4"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">{{ old('bio', $user->bio) }}</textarea>
+                                class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm p-2 mb-4 dark:bg-neutral-800">{{ old('bio', $user->bio) }}</textarea>
                         </div>
 
                         <div class="mb-12">
                             <label for="cover_path" class="block text-sm font-semibold text-gray-700 ">Imagem de perfil</label>
                             <input type="file" name="cover_path" id="cover_path"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 dark:bg-neutral-800">
+                                class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm p-2 dark:bg-neutral-800">
                             <p class="text-gray-500 text-sm mt-1">Formato aceito: PNG, JPG, JPEG. Tamanho máximo: 2MB.</p>
                             <p class="text-gray-500 text-sm mt-1">Tamanho minimo recomendado 150x150</p>
                             <p class="text-gray-500 text-sm mt-1">Tamanho máximo recomendado 500x500</p>

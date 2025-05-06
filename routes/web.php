@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AuthWithMessage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'index'])->name('home');
@@ -22,12 +23,12 @@ Route::group([
     'prefix' => 'post',
     'as' => 'post.'
 ], function () {
-    Route::get('/criar', 'create')->name('create');
-    Route::post('/criar', 'store')->name('store');
-    Route::get('/edit/{id}', 'edit')->name('edit');
-    Route::put('/edit/{id}', 'update')->name('update');
-    Route::delete('/delete/image/{id}', 'destroyImage')->name('destroyImage');
-    Route::delete('/delete/{id}', 'destroy')->name('destroy');
+    Route::get('/criar', 'create')->name('create')->middleware(AuthWithMessage::class);
+    Route::post('/criar', 'store')->name('store')->middleware(AuthWithMessage::class);
+    Route::get('/edit/{id}', 'edit')->name('edit')->middleware(AuthWithMessage::class);
+    Route::put('/edit/{id}', 'update')->name('update')->middleware(AuthWithMessage::class);
+    Route::delete('/delete/image/{id}', 'destroyImage')->name('destroyImage')->middleware(AuthWithMessage::class);
+    Route::delete('/delete/{id}', 'destroy')->name('destroy')->middleware(AuthWithMessage::class);
     Route::get('/{slug}', 'index')->name('show');
 });
 
@@ -36,7 +37,7 @@ Route::group([
 ], function () {
     Route::post('/register', 'register')->name('register');
     Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
+    Route::post('/logout', 'logout')->name('logout')->middleware(AuthWithMessage::class);
 });
 
 Route::group([
@@ -45,12 +46,12 @@ Route::group([
     'as' => 'profile.'
 ], function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/salvos', 'savedPosts')->name('savedPosts');
+    Route::get('/salvos', 'savedPosts')->name('savedPosts')->middleware(AuthWithMessage::class);
     Route::get('/{username}/following', 'following')->name('following');
     Route::get('/{username}/followers', 'followers')->name('followers');
     Route::get('/{username}', 'show')->name('show');
-    Route::get('/{username}/edit', 'edit')->name('edit');
-    Route::put('/{id}', 'update')->name('update');
-    Route::delete('/image/{id}', 'destroyImage')->name('destroyImage');
-    Route::delete('/{id}', 'destroy')->name('destroy');
+    Route::get('/{username}/edit', 'edit')->name('edit')->middleware(AuthWithMessage::class);
+    Route::put('/{id}', 'update')->name('update')->middleware(AuthWithMessage::class);
+    Route::delete('/image/{id}', 'destroyImage')->name('destroyImage')->middleware(AuthWithMessage::class);
+    Route::delete('/{id}', 'destroy')->name('destroy')->middleware(AuthWithMessage::class);
 });

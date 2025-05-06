@@ -31,34 +31,34 @@
                     <div class="mb-4">
                         <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
                         <input type="text" name="title" id="title" value="{{ old('title') }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                     </div>
 
                     <div class="mb-4">
                         <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
                         <input type="text" name="description" id="description" value="{{ old('description') }}"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                     </div>
 
                     <div class="mb-4">
                         <label for="content" class="block text-sm font-medium text-gray-700">Conteúdo</label>
                         <textarea name="content" id="content" rows="10"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 dark:bg-neutral-800"
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 dark:bg-neutral-800"
                             >{{ old('content') }}</textarea>
                     </div>
 
                     <div class="mb-4">
                         <label for="cover_path" class="block text-sm font-medium text-gray-700">Imagem de Capa</label>
                         <input type="file" name="cover_path" id="cover_path"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800">
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800">
                     </div>
 
                     <div class="mb-4">
                         <label for="category_id" class="block text-sm font-medium text-gray-700">Categoria</label>
                         <select name="category_id" id="category_id"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                             <option value="">Selecione uma categoria</option>
                             @foreach ($categories as $category)
@@ -69,9 +69,8 @@
                     <div class="mb-4">
                         <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
                         <select id="tags" name="tags[]" multiple
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
-                            required>
-                            <option value="">Selecione uma categoria</option>
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800">
+                            <option value="">Selecione ou crie Tags</option>
                             @foreach ($tags as $tag)
                                 <option value="{{ $tag->name }}">{{ $tag->name }}</option>
                             @endforeach
@@ -80,7 +79,7 @@
                     <div class="mb-4">
                         <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                         <select name="status" id="status"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500 p-2 dark:bg-neutral-800"
                             required>
                             <option value="draft">Rascunho</option>
                             <option value="published">Publicado</option>

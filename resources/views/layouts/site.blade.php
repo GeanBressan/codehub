@@ -54,7 +54,7 @@
                 <i class="fa-solid fa-circle-half-stroke text-indigo-700 dark:text-amber-300"></i>
             </button>
 
-            @if (Auth::check())
+            @can('view', Auth::user())
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
                         <img src="{{ !Auth::user()->cover_path ? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=009966&color=fff' : asset('storage/' . Auth::user()->cover_path)  }}" alt="Avatar"
@@ -85,7 +85,7 @@
                     <a href="{{ route("login.form") }}" class="text-gray-700 hover:text-emerald-600 dark:text-white dark:hover:text-emerald-600">Entrar</a>
                     <a href="{{ route("register.form") }}" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">Registrar</a>
                 </div>
-            @endif
+            @endcan
         </nav>
     </div>
 </header>

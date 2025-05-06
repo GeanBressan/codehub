@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStore;
+use App\Http\Requests\PostUpdate;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use League\CommonMark\CommonMarkConverter;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
     public function index($slug)
     {
         $post = Post::where('slug', $slug)
@@ -21,11 +24,6 @@ class PostController extends Controller
         if ($post->status !== 'published' && $post->user_id !== Auth::id()) {
             return redirect()->route('home')->with('error', 'Post não encontrado ou não publicado.');
         }
-
-        $converter = new CommonMarkConverter();
-        $post->content = $converter->convertToHtml($post->content);
-        $post->content = str_replace('<p>', '<p class="text-gray-700 mb-4">', $post->content);
-        $post->content = str_replace('<h3>', '<h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">', $post->content);
 
         $tagIds = $post->tags->pluck('id');
         $categoryId = $post->category_id;
@@ -106,39 +104,15 @@ class PostController extends Controller
 
     public function create()
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('login.form')->with('error', 'Você precisa estar logado para criar um post.');
-        }
-
         $categories = Category::all();
         $tags = Tag::all();
         
         return view('post.create', compact('categories', 'tags'));
     }
 
-    public function store(Request $request)
+    public function store(PostStore $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'tags' => 'array',
-            'cover_path' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'nullable|in:draft,published',
-        ], [
-            'title.required' => 'O título é obrigatório.',
-            'description.max' => 'A descrição não pode ter mais de 255 caracteres.',
-            'content.required' => 'O conteúdo é obrigatório.',
-            'category_id.required' => 'A categoria é obrigatória.',
-            'tags.array' => 'As tags devem ser um array.',
-            'cover_path.image' => 'A imagem deve ser uma imagem válida.',
-            'cover_path.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif.',
-            'cover_path.max' => 'A imagem não pode ter mais de 2MB.',
-            'status.in' => 'O status deve ser "Rascunho" ou "Publicado".',
-        ]);
+        $request->validated();
 
         $post = new Post();
         $post->title = $request->input('title');
@@ -178,52 +152,25 @@ class PostController extends Controller
     public function edit($id)
     {
         $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login.form')->with('error', 'Você precisa estar logado para editar um post.');
-        }
+
         $post = Post::findOrFail($id);
-        if ($post->user_id !== $user->id) {
-            return redirect()->route('post.show', $post->slug)->with('error', 'Você não tem permissão para editar este post.');
-        }
+        $this->authorize('update', $post);
+
         $categories = Category::all();
         $tags = Tag::all();
 
         return view('post.edit', compact('post', 'categories', 'tags'));
     }
 
-    public function update(Request $request, $id)
+    public function update(PostUpdate $request, $id)
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return redirect()->route('login.form')->with('error', 'Você precisa estar logado para editar um post.');
-        }
-
         $post = Post::findOrFail($id);
 
-        if ($post->user_id !== $user->id) {
-            return redirect()->route('post.show', $post->slug)->with('error', 'Você não tem permissão para editar este post.');
-        }
+        $this->authorize('update', $post);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-            'tags' => 'array',
-            'cover_path' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'nullable|in:draft,published,archived',
-        ], [
-            'title.required' => 'O título é obrigatório.',
-            'description.max' => 'A descrição não pode ter mais de 255 caracteres.',
-            'content.required' => 'O conteúdo é obrigatório.',
-            'category_id.required' => 'A categoria é obrigatória.',
-            'tags.array' => 'As tags devem ser um array.',
-            'cover_path.image' => 'A imagem deve ser uma imagem válida.',
-            'cover_path.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif.',
-            'cover_path.max' => 'A imagem não pode ter mais de 2MB.',
-            'status.in' => 'O status deve ser "Rascunho", "Arquivado" ou "Publicado".',
-        ]);
+        $request->validated();
 
         $post->title = $request->input('title');
         $post->description = $request->input('description');
@@ -266,7 +213,11 @@ class PostController extends Controller
 
     public function destroyImage($id)
     {
+        $user = Auth::user();
+
         $post = Post::findOrFail($id);
+
+        $this->authorize('update', $post);
 
         $filePath = public_path($post->cover_path);
         if (file_exists($filePath)) {
@@ -281,15 +232,10 @@ class PostController extends Controller
     public function destroy($id)
     {
         $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login.form')->with('error', 'Você precisa estar logado para excluir um post.');
-        }
 
         $post = Post::findOrFail($id);
 
-        if ($post->user_id !== $user->id) {
-            return redirect()->route('post.show', $post->slug)->with('error', 'Você não tem permissão para excluir este post.');
-        }
+        $this->authorize('delete', $post);
         
         if ($post->status === 'published') {
             return redirect()->route('post.edit', $post->id)->with('error', 'Você não pode excluir um post publicado.');
