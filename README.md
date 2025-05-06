@@ -8,7 +8,7 @@
 ![Made with Laravel](https://img.shields.io/badge/Made%20with-Laravel-red?style=for-the-badge&logo=laravel)
 ![Made with PHP](https://img.shields.io/badge/Made%20with-PHP-blue?style=for-the-badge&logo=php)
 
-# 📚 CodeHub
+# 📚 [CodeHub](https://codehub.geanbressan.com.br)
 
 Plataforma de blog feita em Laravel, focada em compartilhar posts e artigos de programação de forma simples e moderna.  
 Este projeto foi desenvolvido com o objetivo de aprender Laravel e Git na prática, enquanto construía algo funcional e real.
