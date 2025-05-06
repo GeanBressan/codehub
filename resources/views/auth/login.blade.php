@@ -4,6 +4,16 @@
 
 @section('content')
     <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        @if (session('sucess'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('sucess') }}</span>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
         <h1 class="text-2xl font-bold mb-6 text-center text-emerald-600">Entrar no CodeHub</h1>
         <form class="space-y-4" method="post" action="{{ route('login') }}">
             @csrf

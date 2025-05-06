@@ -48,9 +48,10 @@
                         </div>
                     </article>
                 @empty
-                    <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center">
-                        <p class="text-gray-700">Nenhum post encontrado.</p>
-                    </div>
+                    </section>
+                        <div class="w-full bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center dark:bg-neutral-950 dark:border-neutral-800">
+                            <p class="text-gray-700 dark:text-white">Nenhum post encontrado.</p>
+                        </div>
                 @endforelse
 
             </section>

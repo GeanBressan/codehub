@@ -22,11 +22,11 @@
                             class="w-24 h-24 rounded-full object-cover" alt="avatar">
                         <div>
                             <h1 class="text-2xl font-bold">{{ $user->name }}
-                                @if ($loggedUserID == $user->id)
+                                @can('view', $user)
                                     <a href="{{ route("profile.edit", $user->username) }}"
                                         class="text-sm text-gray-500 hover:text-emerald-600"><i class="fas fa-pencil"></i>
                                         Editar Perfil</a>
-                                @endif
+                                @endcan
                             </h1>
 
                             <p class="text-gray-500">{{ $user->bio }}</p>
@@ -59,7 +59,11 @@
                                             {{ $followedUser->created_at->diffForHumans() }}</p>
                                     </div>
                                     <div class="ml-auto">
-                                        @livewire('follow-action', ['user' => $followedUser])
+                                        @if (auth()->user())
+                                            @can('view', $followedUser)
+                                                @livewire('follow-action', ['user' => $followedUser])
+                                            @endcan
+                                        @endif
                                     </div>
                                 </li>
                             @endforeach

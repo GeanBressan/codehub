@@ -128,7 +128,7 @@
                             <a href="{{ route('tag.show', $tag->slug) }}"
                                 class="bg-emerald-600 text-white px-3 py-1 rounded-full text-sm hover:bg-emerald-700 transition">{{ $tag->name }}</a>
                         @empty
-                            <a href="#" class="bg-gray-300 text-gray-500 px-3 py-1 rounded-full text-sm dark:text-gray-300">Nenhuma
+                            <a href="#" class="text-gray-500 px-3 py-1 rounded-full text-sm dark:text-gray-300">Nenhuma
                                 TAG encontrada.</a>
                         @endforelse
                     </div>
